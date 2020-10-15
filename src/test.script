@@ -1,0 +1,86 @@
+# Define a city
+# define city <city_id> name <name> account <address> lat <float> long <float> radius <float>
+
+# define the city of Longwood, Florida
+define city city_1 name Longwood-FL account longwood-account lat 28.7031 long -81.3384 radius 20
+
+# Error Handling: Example of defining a city with a city ID that is currently in use. Will throw an error.
+define city city_1 name Atlanta-GA account atlanta-account lat 33.7490 long -84.3380 radius 40
+
+# define the city of Atlanta, GA
+define city city_2 name Atlanta-GA account atlanta-account lat 33.7490 long -84.3380 radius 40
+
+# Test adding a street-sign to city longwood
+define street-sign city_2:ss_1 lat 28.8012 long -81.3872 enabled true text "Longwood Performing Arts Center"
+
+# Error Handling: Example of defining a IoT device with ID already in use
+define street-sign city_2:ss_1 lat 28.8012 long -81.3872 enabled true text "Longwood Performing Arts Center"
+
+# Show all devices in city 2
+show device city_2
+
+# Error Handling: Try to show all devices for a city that doesn't exist
+show device city_3
+
+# Person Commands
+# Define a new Resident
+# define resident <person_id> name <name> bio-metric <string> phone <phone_number> role (adult|child|administrator) lat <lat> long <long> account <account_address>
+define resident resident_1 name john bio-metric "fsduhdsula" phone 433-111-2222 role child lat 28.7054 long -81.3481 account johns_account
+
+# Confirm that resident john is in longwood
+show city city_1
+
+# Move John to Atlanta
+update resident resident_1 lat 33.7391 long -84.3901
+
+# Confirm that john is no longer in longwood
+show city city_1
+
+# Confirm john is now in Atlanta
+show city city_2
+
+# Define a vehicle
+# define vehicle <city_id>:<device_id> lat <float> long <float> enabled (true|false) type (bus|car) activity <string> capacity <int> fee <int>
+
+# Define a car in atlanta
+define vehicle city_1:car_1 lat 33.6251 long -84.3161 enabled true type car activity "parked" capacity 4 fee 10
+
+# Verify that the car is currently in the city
+show city city_2
+
+# Verify citylist works
+show city
+
+# Move the car to longwood
+update vehicle city_1:car_1 lat 28.7801 long -81.3421
+
+# Verify the current city has updated
+show device city_1:car_1
+
+# Make sure it's no longer in Atlanta
+show city city_2
+
+# Verify that it's now in Longwood
+show city city_1
+
+# Define a robot
+# define robot <city_id>:<device_id> lat <float> long <float> enabled (true|false) activity <string>
+
+define robot city_1:bot_1 lat 28.735 long -81.3205 enabled  true activity "cleaning"
+
+# Show the robot
+show device city_1:bot_1
+
+# Verify robot is in city 1
+show city city_1
+
+# Define a street light
+# define street-light <city_id>:<device_id> lat <float> long <float> enabled (true|false) brightness <int>
+
+define street-light city_1:sl_1 lat 28.7270 long  -81.2167 enabled  true  brightness 9
+define street-light city_2:sl_1 lat 33.5749 long  -84.3218 enabled  true  brightness 2
+
+# Verify that the street lights have been created
+show city
+
+
