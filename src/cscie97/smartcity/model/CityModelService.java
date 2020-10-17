@@ -9,7 +9,7 @@ import java.util.TreeMap;
 /**
  * Author: Stephen Sheldon
  **/
-public class CityModelService {
+public class CityModelService implements Subject {
 
     /**
      * A map of all city objects being managed by the City Model Service.
@@ -31,6 +31,12 @@ public class CityModelService {
      * the IotDevice object for the value.
      */
     private Map<String, IotDevice> iotDeviceMap;
+
+    /**
+     * A list of all observers that are registered to watch the Model Service subject.
+     */
+    private List<Observer> observerList;
+
 
     /**
      * Constructor for CityModelService
@@ -423,7 +429,7 @@ public class CityModelService {
      * el2 End altitude in meters
      * @return Distance in kilometers
      */
-    private double distance(double lat1, double lat2, double lon1,
+    public static double distance(double lat1, double lat2, double lon1,
                                   double lon2, double el1, double el2) {
 
         final int R = 6371; // Radius of the earth
@@ -748,5 +754,29 @@ public class CityModelService {
         return (City) updatedCity.clone();
     }
 
+    /**
+     * Register an observer with this subject.
+     * @param o  The Observer object to register.
+     */
+    public void registerObserver(Observer o) {
+        observerList.add(o);
+    }
 
+    /**
+     * Remove an observer from watching this subject.
+     * @param o  The observer to remove from watching the subject.
+     */
+    public void removeObserver(Observer o) {
+        observerList.remove(o);
+    }
+
+    /**
+     * Notify all the observers of a new SensorEvent.
+     * @param event  The SensorEvent to notify observers of.
+     */
+    public void notifyObservers(SensorEvent event) {
+        for (Observer observer : observerList) {
+            observer.update(event);
+        }
+    }
 }
