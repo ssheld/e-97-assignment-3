@@ -90,14 +90,14 @@ public class Resident extends Person implements Cloneable {
         Resident cloned;
         cloned = (Resident) super.clone();
 
-        cloned.setUuid(this.getUuid());
-        cloned.setBiometricId(this.getBiometricId());
-        cloned.setCurrentCity(this.getCurrentCity());
-        cloned.setLocation((Location)this.getLocation().clone());
-        cloned.setName(this.getName());
-        cloned.setPhoneNumber(this.getPhoneNumber());
-        cloned.setRole(this.getRole());
-        cloned.setBlockchainAccountAddress(this.getBlockchainAccountAddress());
+        if (this.getName() != null)
+            cloned.setName(this.getName());
+        if (this.getPhoneNumber() != null)
+            cloned.setPhoneNumber(this.getPhoneNumber());
+        if (this.getRole() != null)
+            cloned.setRole(this.getRole());
+        if (this.getBlockchainAccountAddress() != null)
+            cloned.setBlockchainAccountAddress(this.getBlockchainAccountAddress());
 
         return cloned;
     }

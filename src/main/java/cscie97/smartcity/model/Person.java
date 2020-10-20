@@ -104,10 +104,14 @@ public abstract class Person implements Cloneable {
             System.out.println("Clone not supported exception in class Person.");
         }
 
-        cloned.setUuid(this.getUuid());
-        cloned.setCurrentCity(this.getCurrentCity());
-        cloned.setBiometricId(this.getBiometricId());
-        cloned.setLocation((Location) this.getLocation().clone());
+        if (this.getUuid() != null)
+            cloned.setUuid(this.getUuid());
+        if (this.getCurrentCity() != null)
+            cloned.setCurrentCity(this.getCurrentCity());
+        if (this.getBiometricId() != null)
+            cloned.setBiometricId(this.getBiometricId());
+        if (this.getLocation() != null)
+            cloned.setLocation((Location) this.getLocation().clone());
 
         return cloned;
     }

@@ -33,10 +33,14 @@ public class Visitor extends Person implements Cloneable {
 
         cloned = (Visitor) super.clone();
 
-        cloned.setUuid(this.getUuid());
-        cloned.setBiometricId(this.getBiometricId());
-        cloned.setCurrentCity(this.getCurrentCity());
-        cloned.setLocation((Location)this.getLocation().clone());
+        if (this.getUuid() != null)
+            cloned.setUuid(this.getUuid());
+        if (this.getBiometricId() != null)
+            cloned.setBiometricId(this.getBiometricId());
+        if (this.getCurrentCity() != null)
+            cloned.setCurrentCity(this.getCurrentCity());
+        if (this.getLocation() != null)
+            cloned.setLocation((Location)this.getLocation().clone());
 
         return cloned;
     }
