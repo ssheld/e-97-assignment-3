@@ -260,7 +260,7 @@ public class CityModelService implements Subject {
      * @param sensorEvent The SensorEvent object to create.
      * @return            The created SensorEvent object.
      */
-    public SensorEvent createSensorEvent(SensorEvent sensorEvent) {
+    public SensorEvent createSensorEvent(SensorEvent sensorEvent) throws CityModelServiceException {
 
         // Clone the sensor event
         SensorEvent clonedSensorEvent = (SensorEvent) sensorEvent.clone();
@@ -275,8 +275,18 @@ public class CityModelService implements Subject {
             }
         } else {
             // It's specific to a device ID so only apply it to that device
-            iotDeviceMap.get((clonedSensorEvent.getCityId() + ":" + clonedSensorEvent.getDeviceId())).setLatestEvent(clonedSensorEvent);
+
+            // First make sure the device exists
+            if (iotDeviceMap.containsKey(clonedSensorEvent.getCityId())) {
+                iotDeviceMap.get((clonedSensorEvent.getCityId() + ":" + clonedSensorEvent.getDeviceId())).setLatestEvent(clonedSensorEvent);
+            }
+            else {
+                throw new CityModelServiceException("create-event", "The device for the event does not exist");
+            }
         }
+
+        // Notify the controller service of the new event
+        notifyObservers((SensorEvent)clonedSensorEvent.clone());
 
         return (SensorEvent) clonedSensorEvent.clone();
     }
