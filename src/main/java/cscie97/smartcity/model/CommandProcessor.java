@@ -708,9 +708,10 @@ public class CommandProcessor {
 
     /**
      * Process a set of commands provided within the given command files.
-     * @param modelFile The file to be processed.
+     * @param ledgerFile The ledger file script to be processed.
+     * @param modelFile  The model file script to be processed.
      */
-    public static void processCommandFile(String modelFile, String ledgerFile) {
+    public static void processCommandFile(String ledgerFile, String modelFile) {
         processLedgerFile(ledgerFile);
         processModelFile(modelFile);
     }
