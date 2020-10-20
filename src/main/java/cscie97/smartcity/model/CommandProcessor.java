@@ -645,7 +645,7 @@ public class CommandProcessor {
         try {
             switch (command[0].toLowerCase()) {
                 case "create-ledger":
-                    ledgerService = new LedgerService(command[1], command[3], command[5]);
+                    ledgerService = LedgerService.getInstance();
                     break;
                 case "create-account":
                     if (ledgerService == null) {

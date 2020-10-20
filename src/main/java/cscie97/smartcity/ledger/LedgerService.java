@@ -1,12 +1,12 @@
 package cscie97.smartcity.ledger;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
 
 /**
  * Author: Stephen Sheldon
@@ -53,17 +53,36 @@ public class LedgerService {
     private static LedgerService ledgerService;
 
     /**
-     * Constructor for ledgerService class
-     * @param name         Name of our ledgerService.
-     * @param description  LedgerService description.
-     * @param seed         The seed that is used as input to the hashing algorithm.
-     * @throws LedgerException Exception generated from various methods.
+     * Singleton implementation of LedgerService constructor.
      */
-    public LedgerService(String name, String description, String seed) throws LedgerException {
+    private LedgerService() throws LedgerException {
 
-        this.name = name;
-        this.description = description;
-        this.seed = seed;
+        InputStream input;
+        Properties prop = null;
+
+        try {
+            input = new FileInputStream("src/main/resources/properties.config");
+
+            prop = new Properties();
+            prop.load(input);
+
+        } catch (IOException ex) {
+            System.err.println("Unable to load properties.config file for Ledger Service.");
+            System.err.println("Using default values for ledger name, description and seed.");
+        }
+
+        if (prop != null && prop.containsKey("ledger_name"))
+            this.name = prop.getProperty("ledger_name");
+        else
+            this.name = "test";
+        if (prop != null && prop.containsKey("ledger_description"))
+            this.description = prop.getProperty("ledger_description");
+        else
+            this.description = "test ledger 2020";
+        if (prop != null && prop.containsKey("ledger_seed"))
+            this.seed = prop.getProperty("ledger_seed");
+        else
+            this.seed = "harvard";
 
         // Create genesis block with default blocker number of 1
         genesisBlock = new Block(1);
@@ -87,15 +106,17 @@ public class LedgerService {
         merkleTree = new MerkleTree();
     }
 
-//    private LedgerService() {
-//    }
-//
-//    public LedgerService getInstance() {
-//        if (ledgerService == null) {
-//            ledgerService = new LedgerService();
-//        }
-//        return ledgerService;
-//    }
+    /**
+     * Factory Singleton implementation to retrieve a LedgerService
+     * @return An instance of the LedgerService.
+     * @throws LedgerException
+     */
+    public static LedgerService getInstance() throws LedgerException {
+        if (ledgerService == null) {
+            ledgerService = new LedgerService();
+        }
+        return ledgerService;
+    }
 
     /**
      * Create a new account, assign it a unique ID using given address and set balance to 0.
