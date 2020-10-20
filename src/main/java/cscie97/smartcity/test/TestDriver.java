@@ -1,6 +1,5 @@
 package cscie97.smartcity.test;
 
-import cscie97.smartcity.controller.ControllerService;
 import cscie97.smartcity.model.CommandProcessor;
 
 /**
@@ -12,6 +11,5 @@ public class TestDriver {
 
         // Pass our command process the specified file name
         CommandProcessor.processCommandFile(args[0], args[1]);
-
     }
 }
