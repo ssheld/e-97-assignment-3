@@ -50,6 +50,8 @@ public class Ledger {
      */
     private MerkleTree merkleTree;
 
+    private static Ledger ledger;
+
     /**
      * Constructor for ledger class
      * @param name         Name of our ledger.
@@ -84,6 +86,17 @@ public class Ledger {
         // Create our merkle tree
         merkleTree = new MerkleTree();
     }
+
+//    private Ledger() {
+//        CommandProcessor commandProcessor = new CommandProcessor();
+//    }
+//
+//    public Ledger getInstance() {
+//        if (ledger == null) {
+//            ledger = new Ledger();
+//        }
+//        return ledger;
+//    }
 
     /**
      * Create a new account, assign it a unique ID using given address and set balance to 0.

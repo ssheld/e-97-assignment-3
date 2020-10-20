@@ -623,9 +623,9 @@ public class CommandProcessor {
 
     /**
      * Process a set of commands provided within the given commandFile.
-     * @param file The file to be processed.
+     * @param modelFile The file to be processed.
      */
-    public static void processCommandFile(String file) {
+    public static void processCommandFile(String modelFile, String ledgerFile) {
 
         LineNumberReader lineNumberReader;
         String[] words;
@@ -633,7 +633,7 @@ public class CommandProcessor {
         cityModelService = new CityModelService();
 
         try {
-            lineNumberReader = new LineNumberReader(new FileReader(file));
+            lineNumberReader = new LineNumberReader(new FileReader(modelFile));
 
             String line;
 

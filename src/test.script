@@ -83,4 +83,20 @@ define street-light city_2:sl_1 lat 33.5749 long  -84.3218 enabled  true  bright
 # Verify that the street lights have been created
 show city
 
+# Simulate a device sensor event
+# create sensor-event <city_id>[:<device_id>] type (microphone|camera|thermometer|co2meter) value <string> [subject <person_id>]
+
+create sensor-event city_1:bus_1 type microphone value "does this bus go to Central Square?" subject jane
+create sensor-event city_1:bus_1 type camera value "person boarding bus" subject jane
+create sensor-event city_1:sl_1 type thermometer value 80
+create sensor-event city_1:sl_1 type co2meter value 500
+create sensor-event city_1:bot_1 type thermometer  value 98.6 joe
+
+
+# Send a device output
+# create sensor-output <city_id>[:<device_id>] type (speaker) value <string>
+
+create sensor-output city_1:bot_1 type speaker value "your temperature is normal"
+create sensor-output city_1 type speaker value "severe weather alert, please take shelter"
+
 

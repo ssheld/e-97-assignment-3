@@ -758,6 +758,7 @@ public class CityModelService implements Subject {
      * Register an observer with this subject.
      * @param o  The Observer object to register.
      */
+    @Override
     public void registerObserver(Observer o) {
         observerList.add(o);
     }
@@ -766,6 +767,7 @@ public class CityModelService implements Subject {
      * Remove an observer from watching this subject.
      * @param o  The observer to remove from watching the subject.
      */
+    @Override
     public void removeObserver(Observer o) {
         observerList.remove(o);
     }
@@ -774,9 +776,11 @@ public class CityModelService implements Subject {
      * Notify all the observers of a new SensorEvent.
      * @param event  The SensorEvent to notify observers of.
      */
+    @Override
     public void notifyObservers(SensorEvent event) {
         for (Observer observer : observerList) {
             observer.update(event);
         }
     }
+
 }
