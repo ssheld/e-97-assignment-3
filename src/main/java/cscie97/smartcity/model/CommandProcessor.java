@@ -644,7 +644,7 @@ public class CommandProcessor {
 
         try {
             switch (command[0].toLowerCase()) {
-                case "create-ledgerService":
+                case "create-ledger":
                     ledgerService = new LedgerService(command[1], command[3], command[5]);
                     break;
                 case "create-account":
