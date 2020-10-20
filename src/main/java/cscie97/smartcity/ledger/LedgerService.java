@@ -11,15 +11,15 @@ import java.util.TreeMap;
 /**
  * Author: Stephen Sheldon
  **/
-public class Ledger {
+public class LedgerService {
 
     /**
-     * Name of the ledger.
+     * Name of the ledgerService.
      */
     private String name;
 
     /**
-     * Ledger description.
+     * LedgerService description.
      */
     private String description;
 
@@ -50,16 +50,16 @@ public class Ledger {
      */
     private MerkleTree merkleTree;
 
-    private static Ledger ledger;
+    private static LedgerService ledgerService;
 
     /**
-     * Constructor for ledger class
-     * @param name         Name of our ledger.
-     * @param description  Ledger description.
+     * Constructor for ledgerService class
+     * @param name         Name of our ledgerService.
+     * @param description  LedgerService description.
      * @param seed         The seed that is used as input to the hashing algorithm.
      * @throws LedgerException Exception generated from various methods.
      */
-    public Ledger(String name, String description, String seed) throws LedgerException {
+    public LedgerService(String name, String description, String seed) throws LedgerException {
 
         this.name = name;
         this.description = description;
@@ -87,15 +87,14 @@ public class Ledger {
         merkleTree = new MerkleTree();
     }
 
-//    private Ledger() {
-//        CommandProcessor commandProcessor = new CommandProcessor();
+//    private LedgerService() {
 //    }
 //
-//    public Ledger getInstance() {
-//        if (ledger == null) {
-//            ledger = new Ledger();
+//    public LedgerService getInstance() {
+//        if (ledgerService == null) {
+//            ledgerService = new LedgerService();
 //        }
-//        return ledger;
+//        return ledgerService;
 //    }
 
     /**
@@ -127,7 +126,7 @@ public class Ledger {
      * @param payer         The account issuing the transaction.
      * @param receiver      The account receiving the amount from the transaction.
      * @return              The newly creation transaction object
-     * @throws LedgerException  Throw an exception if either the payer or receiver accounts don't exist in the ledger.
+     * @throws LedgerException  Throw an exception if either the payer or receiver accounts don't exist in the ledgerService.
      *                          Throw an exception if the fee is below 10 units, if the amount isn't in the unsigned int range
      *                          or if the note's character limit exceed 1024 characters.
      */
@@ -135,9 +134,9 @@ public class Ledger {
 
         // Verify that both the receiver and payer accounts are in our account balance map
         if (!currentBlock.getAccountBalanceMap().containsKey(receiver)) {
-            throw new LedgerException("create-transaction", "The specified receiver does not have an account in the ledger.");
+            throw new LedgerException("create-transaction", "The specified receiver does not have an account in the ledgerService.");
         } else if (!currentBlock.getAccountBalanceMap().containsKey(payer)) {
-            throw new LedgerException("create-transaction", "The specified payer does not have an account in the ledger.");
+            throw new LedgerException("create-transaction", "The specified payer does not have an account in the ledgerService.");
         }
 
         // Check to make sure transaction amount and fee are unsigned integers
@@ -296,7 +295,7 @@ public class Ledger {
         }
         // Verify that our block map contains the block number specified
         else if (!blockMap.containsKey(blockNumber)) {
-            throw new LedgerException("get-block", "The ledger doesn't contain a block with the specified block number.");
+            throw new LedgerException("get-block", "The ledgerService doesn't contain a block with the specified block number.");
         }
         else {
             return blockMap.get(blockNumber);
@@ -363,7 +362,7 @@ public class Ledger {
     }
 
     /**
-     * Helper method to commit our current block to the ledger once it fills up with transactions and
+     * Helper method to commit our current block to the ledgerService once it fills up with transactions and
      * create a new block. Merkle tree creation and necessary hashing takes place here.
      * @param currentBlock The current block that now has 10 transactions.
      * @return             A new block containing our account balance map.
@@ -425,9 +424,9 @@ public class Ledger {
 
     /**
      * Helper method for getTransaction method. This method takes all blocks that have been
-     * committed to our ledger's blockmap and concatenates them. This will make it easier to
+     * committed to our ledgerService's blockmap and concatenates them. This will make it easier to
      * search through our transaction by using the transaction ID.
-     * @param bMap The blockMap of our ledger.
+     * @param bMap The blockMap of our ledgerService.
      * @return     An ArrayList of all transactions in our blockMap.
      */
     private ArrayList<Transaction> compileTransactionList(Map<Integer, Block> bMap) {
