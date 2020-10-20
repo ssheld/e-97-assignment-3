@@ -49,6 +49,7 @@ public class CityModelService implements Subject {
         this.cityMap = new TreeMap<>();
         this.personMap = new TreeMap<>();
         this.iotDeviceMap = new TreeMap<>();
+        this.observerList = new LinkedList<>();
     }
 
     /**
@@ -275,9 +276,18 @@ public class CityModelService implements Subject {
             }
         } else {
             // It's specific to a device ID so only apply it to that device
+            for (Map.Entry<String, IotDevice> entry : iotDeviceMap.entrySet()) {
+                System.out.println(entry.getKey());
+            }
+
+            // Build the device ID
+            StringBuilder buildDeviceId = new StringBuilder();
+            buildDeviceId.append(clonedSensorEvent.getCityId());
+            buildDeviceId.append(":");
+            buildDeviceId.append(clonedSensorEvent.getDeviceId());
 
             // First make sure the device exists
-            if (iotDeviceMap.containsKey(clonedSensorEvent.getCityId())) {
+           if (iotDeviceMap.containsKey(buildDeviceId.toString())) {
                 iotDeviceMap.get((clonedSensorEvent.getCityId() + ":" + clonedSensorEvent.getDeviceId())).setLatestEvent(clonedSensorEvent);
             }
             else {
