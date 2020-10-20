@@ -1,6 +1,5 @@
 package cscie97.smartcity.model;
 
-
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -37,14 +36,30 @@ public class CityModelService implements Subject {
      */
     private List<Observer> observerList;
 
+    /**
+     * Singleton implementation of ControllerService
+     */
+    private static CityModelService cityModelService;
+
 
     /**
      * Constructor for CityModelService
      */
-    public CityModelService() {
+    private CityModelService() {
         this.cityMap = new TreeMap<>();
         this.personMap = new TreeMap<>();
         this.iotDeviceMap = new TreeMap<>();
+    }
+
+    /**
+     * Single Factory Method to instantiate a single instance of CityModelService.
+     * @return  The CityModelService object that was created.
+     */
+    public static CityModelService getInstance() {
+        if (cityModelService == null) {
+            cityModelService = new CityModelService();
+        }
+        return cityModelService;
     }
 
     /**

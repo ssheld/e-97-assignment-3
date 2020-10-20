@@ -630,7 +630,7 @@ public class CommandProcessor {
         LineNumberReader lineNumberReader;
         String[] words;
 
-        cityModelService = new CityModelService();
+        cityModelService = CityModelService.getInstance();
 
         try {
             lineNumberReader = new LineNumberReader(new FileReader(modelFile));
