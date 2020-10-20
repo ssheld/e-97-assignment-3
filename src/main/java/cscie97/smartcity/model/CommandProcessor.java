@@ -1,5 +1,6 @@
 package cscie97.smartcity.model;
 
+import cscie97.smartcity.controller.ControllerService;
 import cscie97.smartcity.ledger.Account;
 import cscie97.smartcity.ledger.LedgerService;
 import cscie97.smartcity.ledger.LedgerException;
@@ -21,6 +22,8 @@ public class CommandProcessor {
     private static CityModelService cityModelService = null;
 
     private static LedgerService ledgerService = null;
+
+    private static ControllerService controllerService = null;
 
     /**
      * Process a single command. The output of the command is formatted and displayed to stdout.
@@ -644,9 +647,6 @@ public class CommandProcessor {
 
         try {
             switch (command[0].toLowerCase()) {
-                case "create-ledger":
-                    ledgerService = LedgerService.getInstance();
-                    break;
                 case "create-account":
                     if (ledgerService == null) {
                         throw new LedgerException("create-account", "No ledgerService has been created.");
@@ -712,7 +712,28 @@ public class CommandProcessor {
      * @param modelFile  The model file script to be processed.
      */
     public static void processCommandFile(String ledgerFile, String modelFile) {
+
+        // Initialize Ledger Service
+        try {
+            ledgerService = LedgerService.getInstance();
+        } catch (LedgerException le) {
+            System.out.println("Received a Ledger Exception during ledger initialization.");
+        }
+
+        // Initialize Model Service
+        cityModelService = CityModelService.getInstance();
+
+        // Initialize Controller Service
+        controllerService = ControllerService.getInstance();
+
+        // Set Ledger reference in Controller Service
+        controllerService.setLedger(ledgerService);
+        // Set Model reference in Controller Service
+        controllerService.setCityModelService(cityModelService);
+
+        // Process Ledger script
         processLedgerFile(ledgerFile);
+        // Process Model script
         processModelFile(modelFile);
     }
 
