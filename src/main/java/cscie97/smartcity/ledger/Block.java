@@ -38,7 +38,7 @@ public class Block implements Cloneable {
     private List<Transaction> transactionList;
 
     /**
-     * The full set of accounts managed by the Ledger. The account balances
+     * The full set of accounts managed by the LedgerService. The account balances
      * should reflect the account state after all transactions of the current block
      * have been applied. Each block has it's own immutable copy of this property.
      */
@@ -168,11 +168,16 @@ public class Block implements Cloneable {
             System.out.println("Clone not supported exception.");
         }
 
-        cloned.setBlockNumber(this.getBlockNumber());
-        cloned.setPreviousHash(this.getPreviousHash());
-        cloned.setHash(this.getHash());
-        cloned.setTransactionList(this.getTransactionList());
-        cloned.setAccountBalanceMap(this.getAccountBalanceMap());
+        if (this.getBlockNumber() != null)
+            cloned.setBlockNumber(this.getBlockNumber());
+        if (this.getPreviousHash() != null)
+            cloned.setPreviousHash(this.getPreviousHash());
+        if (this.getHash() != null)
+            cloned.setHash(this.getHash());
+        if (this.getTransactionList() != null)
+            cloned.setTransactionList(this.getTransactionList());
+        if (this.getAccountBalanceMap() != null)
+            cloned.setAccountBalanceMap(this.getAccountBalanceMap());
 
         return cloned;
     }
