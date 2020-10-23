@@ -46,7 +46,7 @@ public class NaturalDisasterCommand implements Command {
     private List<IotDevice> deviceList;
 
     /**
-     * Constructor for natural NaturalDisasterCommand, initializes everything needed to execute command.
+     * Constructor for NaturalDisasterCommand, initializes everything needed to execute command.
      * @param event         The SensorEvent that the command will respond to.
      * @param modelService  A reference to the model service.
      * @throws CityModelServiceException
