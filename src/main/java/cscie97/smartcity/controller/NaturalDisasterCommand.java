@@ -16,7 +16,7 @@ public class NaturalDisasterCommand implements Command {
     private String emergencyType;
 
     /**
-     * City ID of city where natural disaster is occuring
+     * City ID of city where natural disaster is occurring
      */
     private String cityId;
 
@@ -24,16 +24,6 @@ public class NaturalDisasterCommand implements Command {
      * Device ID of device that reported emergency
      */
     private String deviceId;
-
-    /**
-     * List of Robots sorted by distance from emergency
-     */
-    private List<Robot> sortedRobotDistanceList;
-
-    /**
-     * List of all IoT Devices in the city
-     */
-    private List<IotDevice> deviceList;
 
     /**
      * Location of emergency
@@ -44,6 +34,16 @@ public class NaturalDisasterCommand implements Command {
      * Reference to Model Service
      */
     private CityModelService modelService;
+
+    /**
+     * List of Robots sorted by distance from emergency
+     */
+    private List<Robot> sortedRobotDistanceList;
+
+    /**
+     * List of all IoT Devices in the city
+     */
+    private List<IotDevice> deviceList;
 
     /**
      * Constructor for natural NaturalDisasterCommand, initializes everything needed to execute command.
