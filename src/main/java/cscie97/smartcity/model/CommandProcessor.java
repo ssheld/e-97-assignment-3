@@ -727,7 +727,7 @@ public class CommandProcessor {
         controllerService = ControllerService.getInstance();
 
         // Set Ledger reference in Controller Service
-        controllerService.setLedger(ledgerService);
+        controllerService.setLedgerService(ledgerService);
         // Set Model reference in Controller Service
         controllerService.setCityModelService(cityModelService);
 
