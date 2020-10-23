@@ -248,10 +248,16 @@ public class CityModelService implements Subject {
      * @param sensorOutput The sensor output object to create.
      * @return             The sensor output object that was created.
      */
-    public SensorOutput createSensorOutput(SensorOutput sensorOutput) {
+    public SensorOutput createSensorOutput(SensorOutput sensorOutput) throws CityModelServiceException {
 
         // Clone the sensor output
         SensorOutput clonedSensorOutput = (SensorOutput) sensorOutput.clone();
+
+        // Locate device that SensorOutput corresponds to
+        IotDevice outputDevice = getIotDevice(sensorOutput.getCityId(), sensorOutput.getDeviceId());
+
+        // Send the sensor output to the device to process
+        outputDevice.processSensorOutput(sensorOutput);
 
         return (SensorOutput) clonedSensorOutput.clone();
     }
@@ -275,10 +281,6 @@ public class CityModelService implements Subject {
                 }
             }
         } else {
-            // It's specific to a device ID so only apply it to that device
-            for (Map.Entry<String, IotDevice> entry : iotDeviceMap.entrySet()) {
-                System.out.println(entry.getKey());
-            }
 
             // Build the device ID
             StringBuilder buildDeviceId = new StringBuilder();
