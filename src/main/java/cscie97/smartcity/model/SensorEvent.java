@@ -121,13 +121,11 @@ public class SensorEvent implements Cloneable {
     public String toString() {
         StringBuilder sensorEventString = new StringBuilder();
 
-        sensorEventString.append("Sensor Event: " + "\n");
-
         if (this.getCityId() != null) {
             sensorEventString.append("City ID: " + this.getCityId() + "\n");
         }
         if (this.getDeviceId() != null) {
-            sensorEventString.append("Device ID" + this.getDeviceId() + "\n");
+            sensorEventString.append("Device ID: " + this.getDeviceId() + "\n");
         }
         if (this.getSensorType() != null) {
             sensorEventString.append("Sensor Type: " + this.getSensorType() + "\n");
