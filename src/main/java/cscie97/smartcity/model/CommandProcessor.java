@@ -1,6 +1,7 @@
 package cscie97.smartcity.model;
 
 import cscie97.smartcity.controller.ControllerService;
+import cscie97.smartcity.controller.LoggerUtil;
 import cscie97.smartcity.ledger.Account;
 import cscie97.smartcity.ledger.LedgerService;
 import cscie97.smartcity.ledger.LedgerException;
@@ -13,6 +14,7 @@ import java.io.LineNumberReader;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
 
 /**
  * Author: Stephen Sheldon
@@ -608,7 +610,7 @@ public class CommandProcessor {
                             }
 
                             // Pass to API and print out returned SensorEvent object.
-                            System.out.println(cityModelService.createSensorEvent(sensorEvent).toString());
+                            LoggerUtil.log(Level.INFO, "Created Sensor Event: \n" + cityModelService.createSensorEvent(sensorEvent).toString(), false);
                             break;
                         case "sensor-output":
                             SensorOutput sensorOutput = new SensorOutput();
@@ -627,7 +629,7 @@ public class CommandProcessor {
                             // Set sensor output
                             sensorOutput.setValue(command[6]);
                             // Pass sensor event to API and print it out.
-                            System.out.println(cityModelService.createSensorOutput(sensorOutput).toString());
+                            LoggerUtil.log(Level.INFO, "Created Sensor Output: \n" + cityModelService.createSensorOutput(sensorOutput).toString(), false);
                             break;
                     }
                     break;
@@ -717,7 +719,7 @@ public class CommandProcessor {
         try {
             ledgerService = LedgerService.getInstance();
         } catch (LedgerException le) {
-            System.out.println("Received a Ledger Exception during ledger initialization.");
+            LoggerUtil.log(Level.WARNING, "Received a Ledger Exception during ledger initialization.", false);
         }
 
         // Initialize Model Service
