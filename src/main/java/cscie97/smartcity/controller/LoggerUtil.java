@@ -19,6 +19,7 @@ public class LoggerUtil {
      */
     private LoggerUtil() throws IOException {
         logger = Logger.getLogger(LoggerUtil.class.getName());
+        logger.setUseParentHandlers(false);
 
         // Create a file handler
         fileHandler = new FileHandler("log.txt", true);
@@ -50,9 +51,29 @@ public class LoggerUtil {
      * @param level Log Level
      * @param msg   Log message
      */
-    public static void log(Level level, String msg) {
+    public static void log(Level level, String msg, Boolean printToConsole) {
         getLogger().log(level,msg);
-        System.out.println(msg);
+
+        if (printToConsole) {
+            System.out.println(msg);
+        }
+    }
+
+    /**
+     * Overloaded message to log exceptions that have an action and reason strings
+     * @param level Log level
+     * @param msg1  The action that was attempted
+     * @param msg2  The reason the exception was thrown
+     */
+    public static void log(Level level, String msg1, String msg2) {
+        StringBuilder errorString = new StringBuilder();
+
+        errorString.append("Exception Thrown: ");
+        errorString.append(msg1);
+        errorString.append(" ");
+        errorString.append(msg2);
+
+        getLogger().log(level, errorString.toString());
     }
 
 
