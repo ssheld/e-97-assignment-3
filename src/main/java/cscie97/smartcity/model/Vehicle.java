@@ -26,6 +26,11 @@ public class Vehicle extends IotDevice implements Cloneable {
     private Integer fee;
 
     /**
+     * Ledger account ID
+     */
+    private String ledgerAccount;
+
+    /**
      * Constructor for a vehicle object.
      * @param uuid          The globally unique identifier for the IoT Device.
      * @param latitude      The current latitude of the IoT Device.
@@ -147,6 +152,14 @@ public class Vehicle extends IotDevice implements Cloneable {
 
     public void setFee(int fee) {
         this.fee = fee;
+    }
+
+    public String getLedgerAccount() {
+        return ledgerAccount;
+    }
+
+    public void setLedgerAccount(String ledgerAccount) {
+        this.ledgerAccount = ledgerAccount;
     }
 
     /**

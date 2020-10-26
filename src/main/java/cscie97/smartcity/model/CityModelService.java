@@ -654,7 +654,7 @@ public class CityModelService implements Subject {
             // Clone the device to the proper subclass
             Vehicle clonedVehicle = (Vehicle) iotDevice.clone();
 
-            // Get the Vehicle object ot update
+            // Get the Vehicle object to update
             Vehicle updatedVehicle = (Vehicle) iotDeviceMap.get(clonedVehicle.getUuid());
 
             // Check if location has changed
@@ -674,6 +674,10 @@ public class CityModelService implements Subject {
             // Check if fee has changed
             if (clonedVehicle.getFee() != null) {
                 updatedVehicle.setFee(clonedVehicle.getFee());
+            }
+            // Check if ledger account has changed
+            if (clonedVehicle.getLedgerAccount() != null) {
+                updatedVehicle.setLedgerAccount(clonedVehicle.getLedgerAccount());
             }
 
             // Return updated Vehicle object
