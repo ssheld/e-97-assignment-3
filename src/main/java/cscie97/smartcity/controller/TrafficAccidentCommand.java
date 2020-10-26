@@ -63,11 +63,13 @@ public class TrafficAccidentCommand implements Command {
 
         Robot robot1, robot2;
 
+        IotDevice reportingDevice = modelService.getIotDevice(cityId, deviceId);
         // Generate announcement at the reporting device
-        SensorOutput announcementOutput = new SensorOutput(cityId, deviceId, "Stay calm, help is on its way.");
+        SensorOutput announcementOutput = new SensorOutput(reportingDevice.getCurrentCity(), reportingDevice.getUuid(), "Stay calm, help is on its way.");
+        modelService.createSensorOutput(announcementOutput);
 
         // Get sorted list of robots
-        sortedRobotDistanceList = ControllerUtils.locateRobots(emergencyType, emergencyLocation, modelService, cityId);
+        sortedRobotDistanceList = ControllerUtils.locateRobots(emergencyLocation, modelService, cityId);
         LoggerUtil.log(Level.INFO, "Sending two nearest robots with ID's " + sortedRobotDistanceList.get(0), ", " + sortedRobotDistanceList.get(1) +
                 " to address " + emergencyType + " at lat " + emergencyLocation.getLatitude() + " long " + emergencyLocation.getLongitude());
 
@@ -75,9 +77,16 @@ public class TrafficAccidentCommand implements Command {
         robot1 = sortedRobotDistanceList.get(0);
         robot2 = sortedRobotDistanceList.get(1);
 
+        robot1.setActivity("Responding to " + emergencyType);
+        robot2.setActivity("Responding to " + emergencyType);
+
         // Update location of two nearest robots
         robot1.setLocation(new Location(emergencyLocation.getLatitude(), emergencyLocation.getLongitude()));
         robot2.setLocation(new Location(emergencyLocation.getLatitude(), emergencyLocation.getLongitude()));
-    }
 
+        LoggerUtil.log(Level.INFO, "Sending robots " + robot1.getUuid() + " and " + robot2.getUuid() + " to address emergency " + emergencyType + " at lat " + emergencyLocation.getLatitude() + " long " + emergencyLocation.getLongitude(), true);
+
+        modelService.updateIotDevice(robot1);
+        modelService.updateIotDevice(robot2);
+    }
 }
