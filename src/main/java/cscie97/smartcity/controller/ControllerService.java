@@ -95,7 +95,7 @@ public class ControllerService implements Observer {
             case "person_seen" -> command = new PersonSeenCommand(event, cityModelService);
             case "does this bus go to central square?" -> command = new BusRouteCommand(event, cityModelService);
             case "person boards bus" -> command = new BoardBusCommand(event);
-            case "what movies are showing tonight?" -> command = new MovieInfoCommand(event);
+            case "what movies are showing tonight?" -> command = new MovieInfoCommand(event, cityModelService);
             case "person enters car" -> command = new PersonEntersCarCommand(event, cityModelService);
         }
 
