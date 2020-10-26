@@ -1,5 +1,9 @@
 package cscie97.smartcity.model;
 
+import cscie97.smartcity.controller.LoggerUtil;
+
+import java.util.logging.Level;
+
 /**
  * Author: Stephen Sheldon
  **/
@@ -73,7 +77,7 @@ public class SensorOutput implements Cloneable {
         try {
             cloned = (SensorOutput) super.clone();
         } catch (CloneNotSupportedException e) {
-            System.out.println("CloneNotSupportedException in class SensorOutput");
+            LoggerUtil.log(Level.SEVERE, "CloneNotSupportedException in class SensorOutput", false);
         }
 
         if (this.getCityId() != null) {

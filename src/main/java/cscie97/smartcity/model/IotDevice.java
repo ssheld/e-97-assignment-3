@@ -130,7 +130,7 @@ public abstract class IotDevice implements Cloneable {
         try {
             cloned = (IotDevice) super.clone();
         } catch (CloneNotSupportedException e) {
-            System.out.println("Clone not supported exception in class IoTDevice.");
+            LoggerUtil.log(Level.SEVERE, "Clone not supported exception in class IoTDevice.", false);
         }
 
         if (this.getUuid() != null) {

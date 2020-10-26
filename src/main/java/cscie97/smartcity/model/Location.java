@@ -1,5 +1,9 @@
 package cscie97.smartcity.model;
 
+import cscie97.smartcity.controller.LoggerUtil;
+
+import java.util.logging.Level;
+
 /**
  * Author: Stephen Sheldon
  **/
@@ -52,7 +56,7 @@ public class Location implements Cloneable {
         try {
             cloned = (Location) super.clone();
         } catch (CloneNotSupportedException e) {
-            System.out.println("Clone not supported exception in Location class.");
+            LoggerUtil.log(Level.SEVERE, "Clone not supported exception in Location class.", false);
         }
 
         cloned.setLatitude(this.getLatitude());

@@ -46,6 +46,7 @@ public class CommandProcessor {
                             City smartCity = new City(command[2], command[4], command[6], Double.parseDouble(command[8]),
                                     Double.parseDouble(command[10]), Double.parseDouble(command[12]));
                             cityModelService.createCity(smartCity);
+                            LoggerUtil.log(Level.INFO, "Created Smart City\n" + smartCity.toString(), false);
                             break;
                         case "resident":
                             Role residentRole = null;
@@ -68,11 +69,15 @@ public class CommandProcessor {
                                     residentRole, Double.parseDouble(command[12]), Double.parseDouble(command[14]), command[16]);
                             // Add Resident to CityModelService
                             cityModelService.createPerson(resident);
+
+                            LoggerUtil.log(Level.INFO, "Created Resident\n" + resident.toString(), false);
                             break;
                         case "visitor":
                             // Create a visitor
                             Visitor visitor = new Visitor(command[2], command[4], Double.parseDouble(command[6]), Double.parseDouble(command[8]));
                             cityModelService.createPerson(visitor);
+
+                            LoggerUtil.log(Level.INFO, "Created Visitor\n" + visitor.toString(), false);
                             break;
                         case "info-kiosk":
                             // create new information kiosk
@@ -82,6 +87,8 @@ public class CommandProcessor {
                             }
                             InformationKiosk informationKiosk = new InformationKiosk(command[2], Double.parseDouble(command[4]), Double.parseDouble(command[6]), enable, command[10]);
                             cityModelService.createIotDevice(informationKiosk);
+
+                            LoggerUtil.log(Level.INFO, "Created Information Kiosk\n" + informationKiosk.toString(), false);
                             break;
                         case "street-sign":
                             // create new street sign
@@ -91,6 +98,8 @@ public class CommandProcessor {
                             }
                             StreetSign streetSign = new StreetSign(command[2], Double.parseDouble(command[4]), Double.parseDouble(command[6]), enable, command[10]);
                             cityModelService.createIotDevice(streetSign);
+
+                            LoggerUtil.log(Level.INFO, "Created Street Sign\n" + streetSign.toString(), false);
                             break;
                         case "street-light":
                             // create a new street light
@@ -100,6 +109,8 @@ public class CommandProcessor {
                             }
                             StreetLight streetLight = new StreetLight(command[2], Double.parseDouble(command[4]), Double.parseDouble(command[6]), enable, Integer.parseInt(command[10]));
                             cityModelService.createIotDevice(streetLight);
+
+                            LoggerUtil.log(Level.INFO, "Created Street Light\n" + streetLight.toString(), false);
                             break;
                         case "parking-space":
                             // create a new parking space
@@ -109,6 +120,8 @@ public class CommandProcessor {
                             }
                             ParkingSpace parkingSpace = new ParkingSpace(command[2], Double.parseDouble(command[4]), Double.parseDouble(command[6]), enable, Integer.parseInt(command[10]));
                             cityModelService.createIotDevice(parkingSpace);
+
+                            LoggerUtil.log(Level.INFO, "Created Parking Space\n" + parkingSpace.toString(), false);
                             break;
                         case "robot":
                             // create a new robot
@@ -117,6 +130,8 @@ public class CommandProcessor {
                                 enable = Enabled.ON;
                             }
                             Robot robot = new Robot(command[2], Double.parseDouble(command[4]), Double.parseDouble(command[6]), enable, command[10]);
+
+                            LoggerUtil.log(Level.INFO, "Created Robot\n" + robot.toString(), false);
                             cityModelService.createIotDevice(robot);
                             break;
                         case "vehicle":
@@ -138,6 +153,8 @@ public class CommandProcessor {
                             Vehicle vehicle = new Vehicle(command[2], Double.parseDouble(command[4]), Double.parseDouble(command[6]), enable, vehicleType, command[12],
                                     Integer.parseInt(command[14]), Integer.parseInt(command[16]));
                             cityModelService.createIotDevice(vehicle);
+
+                            LoggerUtil.log(Level.INFO, "Created Vehicle\n" + vehicle.toString(), false);
                             break;
                     }
                     break;
@@ -536,32 +553,30 @@ public class CommandProcessor {
                             // Check if showing a specific city based on size of array
                             if (command.length == 3) {
                                 City retrievedCity = cityModelService.getCity(command[2]);
-                                System.out.println(retrievedCity.toString());
+                                LoggerUtil.log(Level.INFO, retrievedCity.toString(), true);
                             } else {
                                 List<City> cityList = cityModelService.getCityList();
                                 for (City city : cityList) {
-                                    System.out.println(city.toString());
+                                    LoggerUtil.log(Level.INFO, city.toString(), true);
                                 }
                             }
                             break;
                         case "person":
                             // show person
-                            System.out.println("Details for Person: " + command[2]);
-                            System.out.println(cityModelService.getPerson(command[2]).toString());
+                            LoggerUtil.log(Level.INFO,"Details for Person: " + command[2] + "\n" + cityModelService.getPerson(command[2]).toString(), true);
                             break;
                         case "device":
                             // Check if showing a specific device
                             String[] splitDeviceId = command[2].split(":");
 
                             if (splitDeviceId.length == 2) {
-                                System.out.println("Retrieving device with ID: " + command[2]);
-                                System.out.println(cityModelService.getIotDevice(splitDeviceId[0], splitDeviceId[1]));
+                                LoggerUtil.log(Level.INFO, "\"Retrieving device with ID: \" + command[2]\n" + cityModelService.getIotDevice(splitDeviceId[0], splitDeviceId[1]), true);
                             } else {
                                 List<IotDevice> deviceList;
-                                System.out.println("Devices associated with City: " + command[2]);
+                                LoggerUtil.log(Level.INFO, "Devices associated with City: " + command[2], true);
                                 deviceList = cityModelService.getIotDevice(command[2]);
                                 for (IotDevice iotDevice : deviceList) {
-                                    System.out.println(iotDevice.toString());
+                                    LoggerUtil.log(Level.INFO, iotDevice.toString(), true);
                                 }
                             }
                             break;
@@ -660,18 +675,18 @@ public class CommandProcessor {
                     ledgerService.processTransaction(transaction);
                     break;
                 case "get-account-balance":
-                    System.out.println(ledgerService.getAccountBalance(command[1]));
+                    LoggerUtil.log(Level.INFO, ledgerService.getAccountBalance(command[1]).toString(), true);
                     break;
                 case "get-account-balances":
                     for (Map.Entry<String, Account> entry : ledgerService.getAccountBalances().entrySet()) {
-                        System.out.println(entry.getValue().toString());
+                        LoggerUtil.log(Level.INFO, entry.getValue().toString(), true);
                     }
                     break;
                 case "get-block":
-                    System.out.println(ledgerService.getBlock(Integer.valueOf(command[1])).toString());
+                    LoggerUtil.log(Level.INFO, ledgerService.getBlock(Integer.valueOf(command[1])).toString(), true);
                     break;
                 case "get-transaction":
-                    System.out.println(ledgerService.getTransaction(command[1]).toString());
+                    LoggerUtil.log(Level.INFO, ledgerService.getTransaction(command[1]).toString(), true);
                     break;
                 case "validate":
                     ledgerService.validate();
@@ -719,7 +734,7 @@ public class CommandProcessor {
         try {
             ledgerService = LedgerService.getInstance();
         } catch (LedgerException le) {
-            LoggerUtil.log(Level.WARNING, "Received a Ledger Exception during ledger initialization.", false);
+            LoggerUtil.log(Level.SEVERE, "Received a Ledger Exception during ledger initialization.", false);
         }
 
         // Initialize Model Service
@@ -769,13 +784,13 @@ public class CommandProcessor {
                         processModelCommands(words, lineNumberReader.getLineNumber());
                     }
                 } catch (CommandProcessorException c) {
-                    System.out.println(c.getCommand() + " " + c.getReason() + " Line number: " + c.getLineNumber());
+                    LoggerUtil.log(Level.SEVERE, c.getCommand() + " " + c.getReason() + " Line number: " + c.getLineNumber(), false);
                 }
             }
         } catch (FileNotFoundException f) {
-            System.out.println("File not found exception.");
+            LoggerUtil.log(Level.SEVERE, "File not found exception.", false);
         } catch (IOException i) {
-            System.out.println("IO exception");
+            LoggerUtil.log(Level.SEVERE, "IO exception", false);
         }
     }
 
@@ -808,13 +823,13 @@ public class CommandProcessor {
                         processLedgerCommands(words, lineNumberReader.getLineNumber());
                     }
                 } catch (CommandProcessorException c) {
-                    System.out.println(c.getCommand() + " " + c.getReason() + " Line number: " + c.getLineNumber());
+                    LoggerUtil.log(Level.SEVERE, c.getCommand() + " " + c.getReason() + " Line number: " + c.getLineNumber(), false);
                 }
             }
         } catch (FileNotFoundException f) {
-            System.out.println("File not found exception.");
+            LoggerUtil.log(Level.SEVERE, "File not found exception.", false);
         } catch (IOException i) {
-            System.out.println("IO exception");
+            LoggerUtil.log(Level.SEVERE, "IO exception", false);
         }
     }
 }

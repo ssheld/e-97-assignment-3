@@ -1,5 +1,9 @@
 package cscie97.smartcity.model;
 
+import cscie97.smartcity.controller.LoggerUtil;
+
+import java.util.logging.Level;
+
 /**
  * Author: Stephen Sheldon
  **/
@@ -101,7 +105,7 @@ public abstract class Person implements Cloneable {
         try {
             cloned = (Person) super.clone();
         } catch(CloneNotSupportedException e) {
-            System.out.println("Clone not supported exception in class Person.");
+            LoggerUtil.log(Level.SEVERE, "Clone not supported exception in class Person.", false);
         }
 
         if (this.getUuid() != null)

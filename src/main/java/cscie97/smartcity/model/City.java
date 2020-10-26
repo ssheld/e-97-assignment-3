@@ -1,9 +1,12 @@
 package cscie97.smartcity.model;
 
+import cscie97.smartcity.controller.LoggerUtil;
+
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.logging.Level;
 
 /**
  * Author: Stephen Sheldon
@@ -144,7 +147,7 @@ public class City implements Cloneable {
         try {
             cloned = (City) super.clone();
         } catch (CloneNotSupportedException e) {
-            System.out.println("Clone not supported exception in City class.");
+            LoggerUtil.log(Level.SEVERE, "Clone not supported exception in City class.", false);
         }
 
         cloned.setUuid(this.getUuid());
