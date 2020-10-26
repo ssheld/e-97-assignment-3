@@ -1,5 +1,9 @@
 package cscie97.smartcity.model;
 
+import cscie97.smartcity.controller.LoggerUtil;
+
+import java.util.logging.Level;
+
 /**
  * Author: Stephen Sheldon
  **/
@@ -149,5 +153,13 @@ public abstract class IotDevice implements Cloneable {
         }
 
         return cloned;
+    }
+
+    /**
+     * Processes sensor output by printing log
+     * @param sensorOutput Sensor output to be processed by device
+     */
+    public void processSensorOutput(SensorOutput sensorOutput) {
+        LoggerUtil.log(Level.INFO, "Device ID: " + sensorOutput.getDeviceId() + " " + sensorOutput.getValue(), true);
     }
 }
