@@ -553,30 +553,30 @@ public class CommandProcessor {
                             // Check if showing a specific city based on size of array
                             if (command.length == 3) {
                                 City retrievedCity = cityModelService.getCity(command[2]);
-                                LoggerUtil.log(Level.INFO, retrievedCity.toString(), true);
+                                LoggerUtil.log(Level.INFO, retrievedCity.toString(), false);
                             } else {
                                 List<City> cityList = cityModelService.getCityList();
                                 for (City city : cityList) {
-                                    LoggerUtil.log(Level.INFO, city.toString(), true);
+                                    LoggerUtil.log(Level.INFO, city.toString(), false);
                                 }
                             }
                             break;
                         case "person":
                             // show person
-                            LoggerUtil.log(Level.INFO,"Details for Person: " + command[2] + "\n" + cityModelService.getPerson(command[2]).toString(), true);
+                            LoggerUtil.log(Level.INFO,"Details for Person: " + command[2] + "\n" + cityModelService.getPerson(command[2]).toString(), false);
                             break;
                         case "device":
                             // Check if showing a specific device
                             String[] splitDeviceId = command[2].split(":");
 
                             if (splitDeviceId.length == 2) {
-                                LoggerUtil.log(Level.INFO, "\"Retrieving device with ID: \" + command[2]\n" + cityModelService.getIotDevice(splitDeviceId[0], splitDeviceId[1]), true);
+                                LoggerUtil.log(Level.INFO, "\"Retrieving device with ID: \" + command[2]\n" + cityModelService.getIotDevice(splitDeviceId[0], splitDeviceId[1]), false);
                             } else {
                                 List<IotDevice> deviceList;
-                                LoggerUtil.log(Level.INFO, "Devices associated with City: " + command[2], true);
+                                LoggerUtil.log(Level.INFO, "Devices associated with City: " + command[2], false);
                                 deviceList = cityModelService.getIotDevice(command[2]);
                                 for (IotDevice iotDevice : deviceList) {
-                                    LoggerUtil.log(Level.INFO, iotDevice.toString(), true);
+                                    LoggerUtil.log(Level.INFO, iotDevice.toString(), false);
                                 }
                             }
                             break;
@@ -675,18 +675,18 @@ public class CommandProcessor {
                     ledgerService.processTransaction(transaction);
                     break;
                 case "get-account-balance":
-                    LoggerUtil.log(Level.INFO, ledgerService.getAccountBalance(command[1]).toString(), true);
+                    LoggerUtil.log(Level.INFO, ledgerService.getAccountBalance(command[1]).toString(), false);
                     break;
                 case "get-account-balances":
                     for (Map.Entry<String, Account> entry : ledgerService.getAccountBalances().entrySet()) {
-                        LoggerUtil.log(Level.INFO, entry.getValue().toString(), true);
+                        LoggerUtil.log(Level.INFO, entry.getValue().toString(), false);
                     }
                     break;
                 case "get-block":
-                    LoggerUtil.log(Level.INFO, ledgerService.getBlock(Integer.valueOf(command[1])).toString(), true);
+                    LoggerUtil.log(Level.INFO, ledgerService.getBlock(Integer.valueOf(command[1])).toString(), false);
                     break;
                 case "get-transaction":
-                    LoggerUtil.log(Level.INFO, ledgerService.getTransaction(command[1]).toString(), true);
+                    LoggerUtil.log(Level.INFO, ledgerService.getTransaction(command[1]).toString(), false);
                     break;
                 case "validate":
                     ledgerService.validate();
