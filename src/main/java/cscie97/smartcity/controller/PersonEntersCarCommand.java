@@ -59,10 +59,10 @@ public class PersonEntersCarCommand implements Command {
         // Associate person's ledger account with the vehicle
         vehicle.setLedgerAccount(person.getBlockchainAccountAddress());
 
-        // Update vehicle
-        modelService.updateIotDevice(vehicle);
-
         // Log the event
         LoggerUtil.log(Level.INFO, person.getUuid() + " has entered car " + vehicle.getUuid(), true);
+
+        // Update vehicle
+        modelService.updateIotDevice(vehicle);
     }
 }
