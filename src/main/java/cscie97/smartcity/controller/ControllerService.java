@@ -139,10 +139,15 @@ public class ControllerService implements Observer {
 
         splitCommand = event.getValue().split(" (?=([^\"]*\"[^\"]*\")*[^\"]*$)");
 
-        // Check if event is vehicle parked
+        // Check if event is parking space event
         if (splitCommand[0].equalsIgnoreCase("vehicle")) {
             vehicleId = splitCommand[1];
             command = new ParkingEventCommand(event, vehicleId, cityModelService, ledgerService);
+        }
+
+        // Check if event is movie reservation event
+        if (splitCommand[0].equalsIgnoreCase("reserve")) {
+            command = new MovieReservationCommand(event, cityModelService, ledgerService);
         }
 
 
