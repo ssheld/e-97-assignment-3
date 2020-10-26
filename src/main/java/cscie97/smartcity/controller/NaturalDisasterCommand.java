@@ -85,6 +85,8 @@ public class NaturalDisasterCommand implements Command {
         for (int i = 0; i < sortedRobotDistanceList.size()/2; i++) {
             // Get robot
             Robot emergencyResponder = sortedRobotDistanceList.get(i);
+            // Set the robots activity
+            emergencyResponder.setActivity("Responding to " + emergencyType);
             // Update location of Robot
             emergencyResponder.setLocation(new Location(emergencyLocation.getLatitude(), emergencyLocation.getLongitude()));
             LoggerUtil.log(Level.INFO, "Sending robot " + sortedRobotDistanceList.get(i).getUuid() + " to address emergency " + emergencyType + " at lat " + emergencyLocation.getLatitude() + " long " + emergencyLocation.getLongitude(), true);
