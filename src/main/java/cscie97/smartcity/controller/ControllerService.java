@@ -150,6 +150,11 @@ public class ControllerService implements Observer {
             command = new MovieReservationCommand(event, cityModelService, ledgerService);
         }
 
+        // Check if event is search for missing person
+        if (splitCommand[0].equalsIgnoreCase("can")) {
+            command = new MissingPersonCommand(event, splitCommand[7], cityModelService);
+        }
+
 
 
         // Reserve movie tickets
