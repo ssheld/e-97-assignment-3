@@ -67,11 +67,10 @@ public class NaturalDisasterCommand implements Command {
      */
     @Override
     public void execute() throws CityModelServiceException {
-        String announcement;
 
         // Make announcement over all IoT Devices in the city using sensor output
         for (IotDevice device : deviceList) {
-            announcement = "There is a " + emergencyType + " in " + device.getCurrentCity() + " please find shelter immediately";
+            String announcement = "There is a " + emergencyType + " in " + device.getCurrentCity() + " please find shelter immediately";
             // Create sensor output and send it to IoT device
             SensorOutput announcementOutput = new SensorOutput(device.getCurrentCity(), device.getUuid(),
                     announcement);
