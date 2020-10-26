@@ -42,8 +42,6 @@ public class BrokenGlassCommand implements Command {
     @Override
     public void execute() throws CityModelServiceException {
 
-        List<Robot> sortedRobotDistanceList;
-
         // Get reporting device
         IotDevice reportingDevice = modelService.getIotDevice(cityId, deviceId);
 
@@ -51,7 +49,7 @@ public class BrokenGlassCommand implements Command {
         Location glassLocation = reportingDevice.getLocation();
 
         // Compile list of robots distance from location
-        sortedRobotDistanceList = ControllerUtils.locateRobots(glassLocation, modelService, cityId);
+        List<Robot> sortedRobotDistanceList = ControllerUtils.locateRobots(glassLocation, modelService, cityId);
 
         // Get closest robot
         Robot closestRobot = sortedRobotDistanceList.get(0);
