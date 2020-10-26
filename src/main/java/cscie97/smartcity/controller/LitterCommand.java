@@ -99,10 +99,20 @@ public class LitterCommand implements Command {
         String uniqueID = UUID.randomUUID().toString();
 
         // Get Person who littered
-        Resident litterbug = (Resident) modelService.getPerson(personId);
+        Person litterbug = modelService.getPerson(personId);
+
+        // Check if person is a visitor
+        if (litterbug instanceof Visitor) {
+            // Visitors don't have ledger accounts
+            LoggerUtil.log(Level.INFO, "Visitor " + litterbug.getUuid() + " has been caught littering at lat " +
+                    litterLocation.getLatitude() + " long " + litterLocation.getLongitude(), true);
+            throw new CityModelServiceException("Litter event", "Unable to charge visitor littering fine. Visitor has no ledger account.");
+        }
+
+        Resident residentLitterbug = (Resident) litterbug;
 
         // Get ledger account of the person who littered
-        String litterbugLedgerAccount = litterbug.getBlockchainAccountAddress();
+        String litterbugLedgerAccount = residentLitterbug.getBlockchainAccountAddress();
 
         // Get the ledger account of the city
         String cityLedgerAccount = modelService.getCity(cityId).getBlockchainAccount();
