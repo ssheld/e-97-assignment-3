@@ -70,8 +70,7 @@ public class LedgerService {
             prop.load(input);
 
         } catch (IOException ex) {
-            System.err.println("Unable to load properties.config file for Ledger Service.");
-            System.err.println("Using default values for ledger name, description and seed.");
+            LoggerUtil.log(Level.SEVERE, "Unable to load properties.config file for Ledger Service.\n" + "Using default values for ledger name, description and seed.", false);
         }
 
         if (prop != null && prop.containsKey("ledger_name"))
