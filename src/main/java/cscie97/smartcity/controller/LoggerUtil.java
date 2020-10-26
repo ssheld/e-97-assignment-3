@@ -52,7 +52,7 @@ public class LoggerUtil {
      * @param msg   Log message
      */
     public static void log(Level level, String msg, Boolean printToConsole) {
-        getLogger().log(level,msg);
+        getLogger().log(level,msg + "\n");
 
         if (printToConsole) {
             System.out.println(msg);
@@ -65,15 +65,20 @@ public class LoggerUtil {
      * @param msg1  The action that was attempted
      * @param msg2  The reason the exception was thrown
      */
-    public static void log(Level level, String msg1, String msg2) {
+    public static void log(Level level, String msg1, String msg2, Boolean printToConsole) {
         StringBuilder errorString = new StringBuilder();
 
         errorString.append("Exception Thrown: ");
         errorString.append(msg1);
         errorString.append(" ");
         errorString.append(msg2);
+        errorString.append("\n");
 
         getLogger().log(level, errorString.toString());
+
+        if (printToConsole) {
+            System.out.println(errorString.toString());
+        }
     }
 
 
