@@ -1,5 +1,9 @@
 package cscie97.smartcity.ledger;
 
+import cscie97.smartcity.controller.LoggerUtil;
+
+import java.util.logging.Level;
+
 /**
  * Author: Stephen Sheldon
  **/
@@ -58,7 +62,7 @@ public class Account implements Cloneable {
         try {
             cloned = (Account) super.clone();
         } catch (CloneNotSupportedException e) {
-            System.out.println("Clone not supported exception.");
+            LoggerUtil.log(Level.SEVERE, "Clone not supported exception.", false);
         }
 
         cloned.setAddress(this.getAddress());

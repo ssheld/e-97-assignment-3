@@ -1,5 +1,7 @@
 package cscie97.smartcity.ledger;
 
+import cscie97.smartcity.controller.LoggerUtil;
+
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -7,6 +9,7 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.*;
+import java.util.logging.Level;
 
 /**
  * Author: Stephen Sheldon
@@ -378,8 +381,7 @@ public class LedgerService {
             }
         }
 
-        System.out.println("Our blockchain is valid.");
-
+        LoggerUtil.log(Level.INFO, "The blockchain is valid", true);
     }
 
     /**
@@ -407,7 +409,7 @@ public class LedgerService {
         try {
             digest = MessageDigest.getInstance("SHA-256");
         } catch (NoSuchAlgorithmException e) {
-            System.out.println("SHA-256 algorithm not found.");
+            LoggerUtil.log(Level.SEVERE, "SHA-256 algorithm not found.", false);
         }
 
         // Generate hash for block

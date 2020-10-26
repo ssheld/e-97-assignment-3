@@ -1,6 +1,9 @@
 package cscie97.smartcity.ledger;
 
+import cscie97.smartcity.controller.LoggerUtil;
+
 import java.util.*;
+import java.util.logging.Level;
 
 /**
  * Author: Stephen Sheldon
@@ -165,7 +168,7 @@ public class Block implements Cloneable {
         try {
             cloned = (Block) super.clone();
         } catch (CloneNotSupportedException e) {
-            System.out.println("Clone not supported exception.");
+            LoggerUtil.log(Level.SEVERE, "Clone not supported exception.", false);
         }
 
         if (this.getBlockNumber() != null)

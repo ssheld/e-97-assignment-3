@@ -1,8 +1,11 @@
 package cscie97.smartcity.ledger;
 
+import cscie97.smartcity.controller.LoggerUtil;
+
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.logging.Level;
 
 /**
  * Author: Stephen Sheldon
@@ -80,7 +83,7 @@ public class Transaction {
         try {
             digest = MessageDigest.getInstance("SHA-256");
         } catch (NoSuchAlgorithmException e) {
-            System.out.println("SHA-256 algorithm not found.");
+            LoggerUtil.log(Level.SEVERE, "SHA-256 algorithm not found.", false);
         }
         byte[] hash = digest.digest(hashString.getBytes(StandardCharsets.UTF_8));
 
