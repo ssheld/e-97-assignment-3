@@ -57,7 +57,7 @@ public class NaturalDisasterCommand implements Command {
         this.deviceId = event.getDeviceId();
         this.emergencyType = event.getValue();
         this.emergencyLocation = modelService.getIotDevice(this.cityId, this.deviceId).getLocation();
-        this.deviceList = new ArrayList<>();
+        this.deviceList = modelService.getIotDevice(event.getCityId());
     }
 
     /**
@@ -67,16 +67,19 @@ public class NaturalDisasterCommand implements Command {
      */
     @Override
     public void execute() throws CityModelServiceException {
+        String announcement;
 
         // Make announcement over all IoT Devices in the city using sensor output
         for (IotDevice device : deviceList) {
+            announcement = "There is a " + emergencyType + " in " + device.getCurrentCity() + " please find shelter immediately";
             // Create sensor output and send it to IoT device
             SensorOutput announcementOutput = new SensorOutput(device.getCurrentCity(), device.getUuid(),
-                    "There is a " + emergencyType + " in " + device.getCurrentCity() + " please find shelter immediately");
+                    announcement);
+            modelService.createSensorOutput(announcementOutput);
         }
 
         // Locate robots
-        sortedRobotDistanceList = ControllerUtils.locateRobots(emergencyType, emergencyLocation, modelService, cityId);
+        sortedRobotDistanceList = ControllerUtils.locateRobots(emergencyLocation, modelService, cityId);
 
         // Send half the robots to the emergency
         for (int i = 0; i < sortedRobotDistanceList.size()/2; i++) {
@@ -84,17 +87,17 @@ public class NaturalDisasterCommand implements Command {
             Robot emergencyResponder = sortedRobotDistanceList.get(i);
             // Update location of Robot
             emergencyResponder.setLocation(new Location(emergencyLocation.getLatitude(), emergencyLocation.getLongitude()));
-            LoggerUtil.log(Level.INFO, "Sending robot " + sortedRobotDistanceList.get(i).getUuid() +
-                    "to address emergency " + emergencyType + " at lat " + emergencyLocation.getLatitude() + " long " + emergencyLocation.getLongitude());
+            LoggerUtil.log(Level.INFO, "Sending robot " + sortedRobotDistanceList.get(i).getUuid() + " to address emergency " + emergencyType + " at lat " + emergencyLocation.getLatitude() + " long " + emergencyLocation.getLongitude(), true);
             // Update the robot in the model
             modelService.updateIotDevice(emergencyResponder);
         }
 
         // Send the remaining 1/2 robots to help people find shelter
-        for (int i = sortedRobotDistanceList.size()/2 + 1; i < sortedRobotDistanceList.size(); i++) {
+        for (int i = sortedRobotDistanceList.size()/2; i < sortedRobotDistanceList.size(); i++) {
             Robot currentRobot = sortedRobotDistanceList.get(i);
             // Create sensor output and send to robot for processing
             SensorOutput robotSensorOutput = new SensorOutput(currentRobot.getCurrentCity(), currentRobot.getUuid(), "Helping people find shelter.");
+            modelService.createSensorOutput(robotSensorOutput);
         }
     }
 }
