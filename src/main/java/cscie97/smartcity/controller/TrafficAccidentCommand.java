@@ -61,8 +61,6 @@ public class TrafficAccidentCommand implements Command {
     @Override
     public void execute() throws CityModelServiceException {
 
-        Robot robot1, robot2;
-
         IotDevice reportingDevice = modelService.getIotDevice(cityId, deviceId);
         // Generate announcement at the reporting device
         SensorOutput announcementOutput = new SensorOutput(reportingDevice.getCurrentCity(), reportingDevice.getUuid(), "Stay calm, help is on its way.");
@@ -72,8 +70,8 @@ public class TrafficAccidentCommand implements Command {
         sortedRobotDistanceList = ControllerUtils.locateRobots(emergencyLocation, modelService, cityId);
 
         // Get two closes robots to emergency
-        robot1 = sortedRobotDistanceList.get(0);
-        robot2 = sortedRobotDistanceList.get(1);
+        Robot robot1 = sortedRobotDistanceList.get(0);
+        Robot robot2 = sortedRobotDistanceList.get(1);
 
         robot1.setActivity("Responding to " + emergencyType);
         robot2.setActivity("Responding to " + emergencyType);
