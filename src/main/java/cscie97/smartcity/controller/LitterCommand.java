@@ -49,6 +49,13 @@ public class LitterCommand implements Command {
      */
     private List<Robot> sortedRobotDistanceList;
 
+    /**
+     * LitterCommand Constructor method
+     * @param event         Litter event
+     * @param modelService  Reference to model service
+     * @param ledgerService Reference to litter service
+     * @throws CityModelServiceException
+     */
     public LitterCommand(SensorEvent event, CityModelService modelService, LedgerService ledgerService) throws CityModelServiceException {
         this.modelService = modelService;
         this.ledgerService = ledgerService;
