@@ -32,7 +32,8 @@ public class SensorOutput implements Cloneable {
      */
     public SensorOutput(String cityId, String deviceId, String value) {
         this.cityId = cityId;
-        this.deviceId = deviceId;
+        String[] deviceIdParser = deviceId.split(":");
+        this.deviceId = deviceIdParser[1];
         this.value = value;
     }
 
