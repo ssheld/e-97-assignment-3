@@ -13,14 +13,13 @@ public class ControllerUtils {
 
     /**
      * Utility method to locate robots within a city
-     * @param emergencyType      The type of emergency the robots are responding to
-     * @param emergencyLocation  The location of the emergency
+     * @param eventLocation  The location of the emergency
      * @param modelService       A reference to the model service
      * @param cityId             The city ID of the city in which the emergency is occurring
      * @return                   A list of robots in the city sorted by distance from emergency location
      * @throws CityModelServiceException
      */
-    public static List<Robot> locateRobots(String emergencyType, Location emergencyLocation, CityModelService modelService, String cityId) throws CityModelServiceException {
+    public static List<Robot> locateRobots(Location eventLocation, CityModelService modelService, String cityId) throws CityModelServiceException {
 
         // Get all devices in the city
         List<IotDevice> deviceList = modelService.getIotDevice(cityId);
@@ -40,14 +39,14 @@ public class ControllerUtils {
         // Check if no robots exists in the city
         if (robotList.isEmpty()) {
             // Log a warning
-            LoggerUtil.log(Level.WARNING, "There are no robots in the city to respond to the " + emergencyType);
+            LoggerUtil.log(Level.WARNING, "There are no robots currently in the city", false);
         }
 
         // Otherwise go through the robot list and calculate the distance the robots
         // are from the location of the emergency.
         for (Robot r : robotList) {
-            distanceBetween = CityModelService.distance(emergencyLocation.getLatitude(), r.getLocation().getLatitude(),
-                    emergencyLocation.getLongitude(), r.getLocation().getLongitude(), 0, 0);
+            distanceBetween = CityModelService.distance(eventLocation.getLatitude(), r.getLocation().getLatitude(),
+                    eventLocation.getLongitude(), r.getLocation().getLongitude(), 0, 0);
             // Put in robot distance map
 
 
