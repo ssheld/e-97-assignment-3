@@ -70,8 +70,6 @@ public class TrafficAccidentCommand implements Command {
 
         // Get sorted list of robots
         sortedRobotDistanceList = ControllerUtils.locateRobots(emergencyLocation, modelService, cityId);
-        LoggerUtil.log(Level.INFO, "Sending two nearest robots with ID's " + sortedRobotDistanceList.get(0), ", " + sortedRobotDistanceList.get(1) +
-                " to address " + emergencyType + " at lat " + emergencyLocation.getLatitude() + " long " + emergencyLocation.getLongitude());
 
         // Get two closes robots to emergency
         robot1 = sortedRobotDistanceList.get(0);
