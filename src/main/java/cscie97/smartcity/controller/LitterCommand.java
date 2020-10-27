@@ -30,11 +30,6 @@ public class LitterCommand implements Command {
     private String personId;
 
     /**
-     * Location of litter
-     */
-    private Location litterLocation;
-
-    /**
      * Reference to Model Service
      */
     private CityModelService modelService;
@@ -62,7 +57,6 @@ public class LitterCommand implements Command {
         this.cityId = event.getCityId();
         this.deviceId = event.getDeviceId();
         this.personId = event.getPersonId();
-        this.litterLocation = modelService.getIotDevice(this.cityId, this.deviceId).getLocation();
     }
 
     /**
@@ -71,6 +65,9 @@ public class LitterCommand implements Command {
      */
     @Override
     public void execute() throws CityModelServiceException, LedgerException {
+
+        // Get location of litter
+        Location litterLocation = modelService.getIotDevice(cityId, deviceId).getLocation();
 
         // Get reporting IoT Device
         IotDevice device = modelService.getIotDevice(cityId, deviceId);
