@@ -82,7 +82,6 @@ public class BoardBusCommand implements Command {
             if (ledgerService.getAccountBalance(resident.getBlockchainAccountAddress()) < busFee+10) {
                 SensorOutput sensorOutput = new SensorOutput(reportingDevice.getCurrentCity(), reportingDevice.getUuid(), "Sorry " + resident.getUuid() + " you have insufficient funds to ride the bus.");
                 throw new ControllerServiceException("Board Bus", "Insufficient funds for resident to board bus");
-
             }
 
             // Create UUID
