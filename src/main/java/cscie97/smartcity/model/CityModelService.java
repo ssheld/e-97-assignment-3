@@ -253,11 +253,22 @@ public class CityModelService implements Subject {
         // Clone the sensor output
         SensorOutput clonedSensorOutput = (SensorOutput) sensorOutput.clone();
 
-        // Locate device that SensorOutput corresponds to
-        IotDevice outputDevice = getIotDevice(sensorOutput.getCityId(), sensorOutput.getDeviceId());
+        // Check to see if there is a device associated with this sensor output
+        if (clonedSensorOutput.getDeviceId() != null) {
 
-        // Send the sensor output to the device to process
-        outputDevice.processSensorOutput(sensorOutput);
+            // Locate device that SensorOutput corresponds to
+            IotDevice outputDevice = getIotDevice(sensorOutput.getCityId(), sensorOutput.getDeviceId());
+
+            // Send the sensor output to the device to process
+            outputDevice.processSensorOutput(sensorOutput);
+        } else {
+            List<IotDevice> deviceList = this.getIotDevice(sensorOutput.getCityId());
+            // Send the output to all IoT devices
+            for (IotDevice device : deviceList) {
+                sensorOutput.setDeviceId(device.getUuid());
+                device.processSensorOutput(sensorOutput);
+            }
+        }
 
         return (SensorOutput) clonedSensorOutput.clone();
     }
