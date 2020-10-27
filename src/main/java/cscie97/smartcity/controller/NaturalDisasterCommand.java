@@ -26,24 +26,9 @@ public class NaturalDisasterCommand implements Command {
     private String deviceId;
 
     /**
-     * Location of emergency
-     */
-    private Location emergencyLocation;
-
-    /**
      * Reference to Model Service
      */
     private CityModelService modelService;
-
-    /**
-     * List of Robots sorted by distance from emergency
-     */
-    private List<Robot> sortedRobotDistanceList;
-
-    /**
-     * List of all IoT Devices in the city
-     */
-    private List<IotDevice> deviceList;
 
     /**
      * Constructor for NaturalDisasterCommand, initializes everything needed to execute command.
@@ -51,13 +36,11 @@ public class NaturalDisasterCommand implements Command {
      * @param modelService  A reference to the model service.
      * @throws CityModelServiceException
      */
-    public NaturalDisasterCommand(SensorEvent event, CityModelService modelService) throws CityModelServiceException {
+    public NaturalDisasterCommand(SensorEvent event, CityModelService modelService) {
         this.modelService = modelService;
         this.cityId = event.getCityId();
         this.deviceId = event.getDeviceId();
         this.emergencyType = event.getValue();
-        this.emergencyLocation = modelService.getIotDevice(this.cityId, this.deviceId).getLocation();
-        this.deviceList = modelService.getIotDevice(event.getCityId());
     }
 
     /**
@@ -67,6 +50,10 @@ public class NaturalDisasterCommand implements Command {
      */
     @Override
     public void execute() throws CityModelServiceException {
+
+        Location emergencyLocation = modelService.getIotDevice(cityId, deviceId).getLocation();
+
+        List<IotDevice> deviceList = modelService.getIotDevice(cityId);
 
         // Make announcement over all IoT Devices in the city using sensor output
         for (IotDevice device : deviceList) {
@@ -78,7 +65,7 @@ public class NaturalDisasterCommand implements Command {
         }
 
         // Locate robots
-        sortedRobotDistanceList = ControllerUtils.locateRobots(emergencyLocation, modelService, cityId);
+        List<Robot> sortedRobotDistanceList = ControllerUtils.locateRobots(emergencyLocation, modelService, cityId);
 
         // Send half the robots to the emergency
         for (int i = 0; i < sortedRobotDistanceList.size()/2; i++) {
