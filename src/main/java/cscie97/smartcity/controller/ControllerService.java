@@ -37,13 +37,20 @@ public class ControllerService implements Observer {
     private Map<String, List<String>> co2CityMap;
 
     /**
-     * Tracks if a city is currently in a high CO2 state
+     * Co2 trigger, tracks high co2 levels
      */
-//    private Map<String, Boolean> cityCo2State;
+    private int highCo2Level;
+
+    /**
+     * Co2 trigger, tracks low co2 levels
+     */
+    private int lowCo2Level;
 
 
     private ControllerService() {
         co2CityMap = new LinkedHashMap<>();
+        highCo2Level = 0;
+        lowCo2Level = 0;
     }
 
     /**
@@ -106,33 +113,22 @@ public class ControllerService implements Observer {
 
             // Check if event is above 1000
             if (Integer.parseInt(event.getValue()) >= 1000) {
-                // Check if any device from this city is currently above 1000
-                if (co2CityMap.containsKey(cityId)) {
-                    // If it is check to see if this device is already in our array
-                    if (!co2CityMap.get(cityId).contains(deviceId)) {
-                        // It doesn't contain the device so add it
-                        co2CityMap.get(cityId).add(deviceId);
-                        // Now check size of the array to see if a command needs to be generated
-                        if (co2CityMap.get(cityId).size() >= 3) {
-                            // Generate an event if it's greater than or equal to 3
-                            command = new HighCo2Command(event);
-                        }
-                        // If it's not greater than or equal to three then do nothing
-                    } else {
-                        // It does contain the device so throw an exception
-                        throw new ControllerServiceException("create-event", "The device with device ID " + event.getDeviceId() + " has already reported a high CO2 event.");
-                    }
-                } else {
-                    // Create a new list of devices with high co2 for this city
-                    List<String> deviceList = new ArrayList<>();
-                    deviceList.add(deviceId);
-                    // The co2CityMap doesn't contain the city yet so add the device list
-                    co2CityMap.put(cityId, deviceList);
+                // Increment highCo2Level
+                highCo2Level++;
+                // Check if it's 3
+                if (highCo2Level >= 3) {
+                    command = new HighCo2Command(event, cityModelService);
+                    // reset the trigger
+                    highCo2Level = 0;
                 }
-            } else if (Integer.parseInt(event.getValue()) < 1000) {
-                // Low Co2 Event detected
-                if (co2CityMap.containsKey(cityId)) {
-                    // LEFT OFF HERE
+            } else if (Integer.parseInt(event.getValue()) < 1000){
+                // Increment lowCo2Level
+                lowCo2Level++;
+                // Check if it's 3
+                if (lowCo2Level >= 3) {
+                    command = new LowCo2Command(event, cityModelService);
+                    // reset the trigger
+                    lowCo2Level = 0;
                 }
             }
         }
@@ -154,14 +150,6 @@ public class ControllerService implements Observer {
         if (splitCommand[0].equalsIgnoreCase("can")) {
             command = new MissingPersonCommand(event, splitCommand[7], cityModelService);
         }
-
-
-
-        // Reserve movie tickets
-
-        // Help me find my child
-
-        // Vehicle parked
 
         // If command is null then it it's a event that the controller won't handle
         if (command == null) {
