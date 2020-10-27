@@ -3,25 +3,25 @@ create-ledger test description "test ledger 2020" seed "harvard"
 
 
 # create-account <account-id>
-create-account longwood-account
+create-account cambridge-account
 create-account atlanta-account
-create-account johns_account
-create-account bills_account
-create-account franks_account
+create-account joes_account
 create-account janes_account
+create-account franks_account
+create-account bills_account
 
 #process-transaction <transaction-id> amount <amount> fee <fee> note <note> payer <account-address> receiver <account-address>
 
 # Initial funding of accounts
-process-transaction 1 amount 2000 fee 10 note "fund account" payer master receiver longwood-account
-process-transaction 2 amount 2000 fee 10 note "fund account" payer master receiver atlanta-account
-process-transaction 3 amount 2000 fee 10 note "fund account" payer master receiver johns_account
+process-transaction 1 amount 2000 fee 10 note "fund account" payer master receiver cambridge-account
+process-transaction 2 amount 2000 fee 10 note "fund account" payer master receiver joes_account
+process-transaction 3 amount 2000 fee 10 note "fund account" payer master receiver joes_account
 process-transaction 4 amount 2000 fee 10 note "fund account" payer master receiver bills_account
 process-transaction 5 amount 2000 fee 10 note "fund account" payer master receiver franks_account
 process-transaction 6 amount 2000 fee 10 note "fund account" payer master receiver janes_account
-process-transaction 7 amount 2000 fee 10 note "fund account" payer master receiver longwood-account
+process-transaction 7 amount 2000 fee 10 note "fund account" payer master receiver cambridge-account
 process-transaction 8 amount 2000 fee 10 note "fund account" payer master receiver atlanta-account
-process-transaction 9 amount 2000 fee 10 note "fund account" payer master receiver johns_account
+process-transaction 9 amount 2000 fee 10 note "fund account" payer master receiver joes_account
 process-transaction 10 amount 2000 fee 10 note "fund account" payer master receiver bills_account
 process-transaction 11 amount 2000 fee 10 note "fund account" payer master receiver franks_account
 process-transaction 12 amount 2000 fee 10 note "fund account" payer master receiver janes_account

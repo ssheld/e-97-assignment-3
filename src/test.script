@@ -2,101 +2,145 @@
 # define city <city_id> name <name> account <address> lat <float> long <float> radius <float>
 
 # define the city of Longwood, Florida
-define city city_1 name Longwood-FL account longwood-account lat 28.7031 long -81.3384 radius 20
-
-# Error Handling: Example of defining a city with a city ID that is currently in use. Will throw an error.
-define city city_1 name Atlanta-GA account atlanta-account lat 33.7490 long -84.3380 radius 40
+define city city_1 name Longwood-FL account longwood-account lat 28.7031 long -81.3384 radius 100
 
 # define the city of Atlanta, GA
-define city city_2 name Atlanta-GA account atlanta-account lat 33.7490 long -84.3380 radius 40
+define city city_2 name Atlanta-GA account atlanta-account lat 33.7490 long -84.3380 radius 80
 
 # Test adding a street-sign to city longwood
 define street-sign city_2:ss_1 lat 28.8012 long -81.3872 enabled true text "Longwood Performing Arts Center"
 
-# Error Handling: Example of defining a IoT device with ID already in use
-define street-sign city_2:ss_1 lat 28.8012 long -81.3872 enabled true text "Longwood Performing Arts Center"
-
-# Show all devices in city 2
-show device city_2
-
-# Error Handling: Try to show all devices for a city that doesn't exist
-show device city_3
-
 # Person Commands
 # Define a new Resident
 # define resident <person_id> name <name> bio-metric <string> phone <phone_number> role (adult|child|administrator) lat <lat> long <long> account <account_address>
-define resident resident_1 name john bio-metric "fsduhdsula" phone 433-111-2222 role child lat 28.7054 long -81.3481 account johns_account
+define resident resident_1 name john bio-metric "fsduhdsula" phone 433-111-2222 role adult lat 28.7054 long -81.3481 account johns_account
+define resident resident_2 name bill bio-metric "gdfasdfs" phone 454-145-5422 role child lat 28.3254 long -81.1081 account bills_account
 
-# Confirm that resident john is in longwood
-show city city_1
+# Define a new Visitor
+#define visitor <person_id> bio-metric <string> lat <lat> long <long>
 
-# Move John to Atlanta
-update resident resident_1 lat 33.7391 long -84.3901
+define visitor visitor_1 bio-metric "iris-print='irisprint-visitor_1'" lat 28.6042 long -81.3403
 
-# Confirm that john is no longer in longwood
-show city city_1
+# Define an information kiosk
+#define info-kiosk <city_id>:<device_id> lat <float> long <float> enabled (true|false) image <uri>
 
-# Confirm john is now in Atlanta
-show city city_2
+define info-kiosk city_1:kiosk_1 lat 28.5723 long -81.2230 enabled  true  image https://upload.wikimedia.org/wikipedia/commons/7/75/Longwood_Hist_Dist_Florida01.jpg
+define info-kiosk city_2:kiosk_1 lat 33.6766 long -84.3160 enabled  true  image https://imagesvc.meredithcorp.io/v3/mm/image?q=85&c=sc&poi=face&url=https%3A%2F%2Fcdn-image.travelandleisure.com%2Fsites%2Fdefault%2Ffiles%2F1448405885%2Fgeorgia-aquarium-atlanta-at1115.jpg
+
+
+
+# Define a parking spaces
+#define parking-space <city_id>:<device_id> lat <float> long <float> enabled (true|false) rate <int>
+
+define parking-space city_1:ps_1 lat 28.3743 long -81.2202 enabled true  rate 25
+define parking-space city_2:ps_1 lat 33.3744 long -84.3203 enabled true  rate 35
 
 # Define a vehicle
 # define vehicle <city_id>:<device_id> lat <float> long <float> enabled (true|false) type (bus|car) activity <string> capacity <int> fee <int>
 
-# Define a car in atlanta
-define vehicle city_1:car_1 lat 33.6251 long -84.3161 enabled true type car activity "parked" capacity 4 fee 10
+# Define a car in Longwood
+define vehicle city_1:car_1 lat 28.0251 long -81.3161 enabled true type car activity "parked" capacity 4 fee 10
+define vehicle city_1:car_2 lat 28.434 long -81.3534 enabled true type car activity "driving" capacity 6 fee 15
+define vehicle city_1:car_3 lat 28.5321 long -81.3761 enabled true type car activity "driving" capacity 2 fee 20
 
-# Verify that the car is currently in the city
-show city city_2
 
-# Verify citylist works
-show city
 
-# Move the car to longwood
-update vehicle city_1:car_1 lat 28.7801 long -81.3421
+# Should throw an error since device does not exist
+create sensor-event city_1:sl_1 type camera value "earthquake"
 
-# Verify the current city has updated
-show device city_1:car_1
+create sensor-event city_1:car_1 type camera value "earthquake"
 
-# Make sure it's no longer in Atlanta
-show city city_2
-
-# Verify that it's now in Longwood
-show city city_1
 
 # Define a robot
 # define robot <city_id>:<device_id> lat <float> long <float> enabled (true|false) activity <string>
 
 define robot city_1:bot_1 lat 28.735 long -81.3205 enabled  true activity "cleaning"
+define robot city_1:bot_2 lat 28.432 long -81.3212 enabled  true activity "Directing traffic"
+define robot city_1:bot_3 lat 28.435 long -81.3252 enabled  true activity "Safety Officer"
+define robot city_1:bot_4 lat 28.765 long -81.3253 enabled  true activity "Delivering food"
+define robot city_1:bot_5 lat 28.743 long -81.3221 enabled  true activity "Constructing building"
 
-# Show the robot
-show device city_1:bot_1
-
-# Verify robot is in city 1
-show city city_1
 
 # Define a street light
 # define street-light <city_id>:<device_id> lat <float> long <float> enabled (true|false) brightness <int>
 
 define street-light city_1:sl_1 lat 28.7270 long  -81.2167 enabled  true  brightness 9
+define street-light city_1:sl_2 lat 28.3220 long  -81.3431 enabled  true  brightness 4
 define street-light city_2:sl_1 lat 33.5749 long  -84.3218 enabled  true  brightness 2
 
-# Verify that the street lights have been created
-show city
-
 # Simulate a device sensor event
-# create sensor-event <city_id>[:<device_id>] type (microphone|camera|thermometer|co2meter) value <string> [subject <person_id>]
+#create sensor-event <city_id>[:<device_id>] type (microphone|camera|thermometer|co2meter) value <string> [subject <person_id>]
 
-create sensor-event city_1:bus_1 type microphone value "does this bus go to Central Square?" subject jane
-create sensor-event city_1:bus_1 type camera value "person boarding bus" subject jane
-create sensor-event city_1:sl_1 type thermometer value 80
-create sensor-event city_1:sl_1 type co2meter value 500
-create sensor-event city_1:bot_1 type thermometer  value 98.6 joe
+show device city_1
 
+# Trigger Rule Emergency 1
+create sensor-event city_1:sl_1 type camera value "fire"
 
-# Send a device output
-# create sensor-output <city_id>[:<device_id>] type (speaker) value <string>
+show device city_1
 
-create sensor-output city_1:bot_1 type speaker value "your temperature is normal"
-create sensor-output city_1 type speaker value "severe weather alert, please take shelter"
+# Create robots in city 2
+define robot city_2:bot_1 lat 33.735 long -84.3205 enabled  true activity "cleaning"
+define robot city_2:bot_2 lat 33.432 long -84.3212 enabled  true activity "Directing traffic"
+define robot city_2:bot_3 lat 33.342 long -84.3254 enabled  true activity "Delivering package"
 
+#Create bus in city 1
+define vehicle city_1:bus_1 lat 28.3736 long -81.1214 enabled  true  type  bus  activity "on route" capacity 30 fee 1
 
+# Trigger Rule Emergency 2
+create sensor-event city_2:bot_1 type camera value "traffic_accident"
+
+show device city_2
+
+# Trigger Rule Missing Child
+create sensor-event city_1:bot_1 type microphone value "can you help me find my child resident_2" subject resident_1
+
+# Trigger Rule Bus Route
+create sensor-event city_1:bus_1 type microphone value "Does this bus go to central square?" subject resident_1
+
+# Error Testing - Trigger Rule Person Seen, person does not exist.
+create sensor-event city_1:bot_2 type camera value "person_seen" subject resident_2
+
+# Trigger Rule Person Seen
+create sensor-event city_1:bot_2 type camera value "person_seen" subject resident_1
+
+show device city_1:bot_2
+
+show person resident_1
+
+# Trigger rule person enters vehicle
+create sensor-event city_1:car_1 type camera value "person enters car" subject resident_1
+
+# Trigger Rule Parking Event
+create sensor-event city_1:ps_1 type camera value "Vehicle city_1:car_1 parked for 1 hour."
+
+# Trigger Rule Broken Glass
+create sensor-event city_1:kiosk_1 type microphone value "broken_glass_sound"
+
+# Trigger Rule Litter Event for resident
+create sensor-event city_1:bot_1 type camera value "littering" subject resident_1
+
+# Trigger Rule Movie Info
+create sensor-event city_1:kiosk_1 type microphone value "what movies are showing tonight?" subject resident_1
+
+# Trigger Rule Litter Event for visitor
+create sensor-event city_1:bot_2 type camera value "littering" subject visitor_1
+
+# Trigger Rule Movie Reservation for resident
+create sensor-event city_1:kiosk_1 type microphone value "reserve 3 seats for the 9 pm showing of Casablanca." subject resident_1
+
+# Trigger Rule Movie Reservation for resident
+create sensor-event city_1:kiosk_1 type microphone value "reserve 3 seats for the 9 pm showing of Casablanca." subject visitor_1
+
+# Trigger Rule Board Bus
+create sensor-event city_1:bus_1 type camera value "Person boards bus" subject resident_1
+create sensor-event city_1:bus_1 type camera value "Person boards bus" subject visitor_1
+
+# Trigger Rule CO2 Event 1
+create sensor-event city_1:sl_1 type co2meter value "1200"
+create sensor-event city_1:sl_2 type co2meter value "1300"
+create sensor-event city_1:ps_1 type co2meter value "1400"
+
+# Trigger Rule CO2 Event 2
+create sensor-event city_1:sl_1 type co2meter value "900"
+create sensor-event city_1:sl_2 type co2meter value "800"
+create sensor-event city_1:bot_1 type co2meter value "700"

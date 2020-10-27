@@ -90,6 +90,7 @@ show device city_1
 # Simulate a device sensor event
 #create sensor-event <city_id>[:<device_id>] type (microphone|camera|thermometer|co2meter) value <string> [subject <person_id>]
 
+# THESE SENSOR EVENTS WILL THROW EXCEPTIONS
 create sensor-event city_1:bus_1 type microphone value "does this bus go to Central Square?" subject resident_1
 create sensor-event city_1:bus_1 type camera value "person boarding bus" subject resident_1
 create sensor-event city_1:sl_1 type thermometer value 80
@@ -100,13 +101,13 @@ create sensor-event city_1:bot_1 type thermometer  value 98.6 subject resident_2
 #create sensor-output <city_id>[:<device_id>] type (speaker) value <string>
 
 create sensor-output city_1:bot_1 type speaker value "your temperature is normal"
-create sensor-output city_1 speaker value "severe weather alert, please take shelter"
+create sensor-output city_1 type speaker value "severe weather alert, please take shelter"
 Person Commands
 # Define a new Resident
 #define resident <person_id> name <name> bio-metric <string> phone <phone_number> role (adult|child|administrator) lat <lat> long <long> account <account_address>
 
 define resident resident_1 name jane bio-metric "voice-print='voiceprint-jane',face-print='faceprint-jane'" phone 781-222-3344 role adult lat 42.3735 long -71.1205 account janes_account
-define resident resident_2 name joe bio-metric "voice-print='voiceprint-joe',face-print='faceprint-joe'" phone 781-222-3345 role child lat 42.3735 long -71.1205 account janes_account
+define resident resident_2 name joe bio-metric "voice-print='voiceprint-joe',face-print='faceprint-joe'" phone 781-222-3345 role child lat 42.3735 long -71.1205 account joes_account
 
 # Update a Resident
 #update resident <person_id> [name <name>] [bio-metric <string>] [phone <phone_number>] [role (adult|child|administrator)] [lat <lat> long <long>] [account <account_address>]
@@ -116,7 +117,7 @@ update resident resident_1 name jane lat 42.3830 long -71.1125
 # Define a new Visitor
 #define visitor <person_id> bio-metric <string> lat <lat> long <long>
 
-define visitor visitor_1 bio-metric "iris-print='irisprint-visitor_1' lat 42.3744 long -71.1203
+define visitor visitor_1 bio-metric "iris-print='irisprint-visitor_1'" lat 42.3744 long -71.1203
 
 # Update a Visitor
 #update visitor <person_id> [bio-metric <string>] [lat <lat> long <long>]
@@ -132,7 +133,7 @@ show person visitor_1
 # Simulate events to trigger Controller Service rules
 
 # Simulate a device sensor event
-#create sensor-event <city_id>[:<device_id>] type (microphone|camera|thermometer|co2meter) value <string> [subject <person_id>]
+# create sensor-event <city_id>[:<device_id>] type (microphone|camera|thermometer|co2meter) value <string> [subject <person_id>]
 
 # Trigger Rule Emergency 1
 create sensor-event city_1:sl_1 type camera value "fire"
