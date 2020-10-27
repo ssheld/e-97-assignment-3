@@ -49,7 +49,6 @@ public class ControllerUtils {
                     eventLocation.getLongitude(), r.getLocation().getLongitude(), 0, 0);
             // Put in robot distance map
 
-
             robotDistanceMap.put(r, distanceBetween);
         }
 
