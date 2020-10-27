@@ -35,11 +35,6 @@ public class MissingChildCommand implements Command {
     private CityModelService modelService;
 
     /**
-     * List of Robots sorted by distance from emergency
-     */
-    private List<Robot> sortedRobotDistanceList;
-
-    /**
      * MissingChildCommand Constructor method
      * @param event           Event object
      * @param missingPersonId ID of missing person
@@ -80,7 +75,7 @@ public class MissingChildCommand implements Command {
 
         // Find robot nearest to person
         // Get sorted list of robots
-        sortedRobotDistanceList = ControllerUtils.locateRobots(personLocation, modelService, cityId);
+        List<Robot> sortedRobotDistanceList = ControllerUtils.locateRobots(personLocation, modelService, cityId);
 
         // Make sure there's a robot to help move person
         if (sortedRobotDistanceList.isEmpty()) {
