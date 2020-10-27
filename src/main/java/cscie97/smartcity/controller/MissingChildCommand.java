@@ -7,7 +7,7 @@ import java.util.logging.Level;
 /**
  * Author: Stephen Sheldon
  **/
-public class MissingPersonCommand implements Command {
+public class MissingChildCommand implements Command {
 
     /**
      * City ID of city where the event has occurred
@@ -45,7 +45,7 @@ public class MissingPersonCommand implements Command {
      * @param missingPersonId ID of missing person
      * @param modelService    Reference to City Model Service
      */
-    public MissingPersonCommand(SensorEvent event, String missingPersonId, CityModelService modelService) {
+    public MissingChildCommand(SensorEvent event, String missingPersonId, CityModelService modelService) {
         this.modelService = modelService;
         this.cityId = event.getCityId();
         this.deviceId = event.getDeviceId();
