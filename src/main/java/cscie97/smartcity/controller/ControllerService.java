@@ -4,7 +4,6 @@ import cscie97.smartcity.ledger.LedgerException;
 import cscie97.smartcity.ledger.LedgerService;
 import cscie97.smartcity.model.*;
 
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -148,7 +147,7 @@ public class ControllerService implements Observer {
 
         // Check if event is search for missing person
         if (splitCommand[0].equalsIgnoreCase("can")) {
-            command = new MissingPersonCommand(event, splitCommand[7], cityModelService);
+            command = new MissingChildCommand(event, splitCommand[7], cityModelService);
         }
 
         // If command is null then it it's a event that the controller won't handle
