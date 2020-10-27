@@ -40,11 +40,6 @@ public class LitterCommand implements Command {
     private LedgerService ledgerService;
 
     /**
-     * List of Robots sorted by distance from emergency
-     */
-    private List<Robot> sortedRobotDistanceList;
-
-    /**
      * LitterCommand Constructor method
      * @param event         Litter event
      * @param modelService  Reference to model service
@@ -65,6 +60,8 @@ public class LitterCommand implements Command {
      */
     @Override
     public void execute() throws CityModelServiceException, LedgerException {
+
+        List<Robot> sortedRobotDistanceList;
 
         // Get location of litter
         Location litterLocation = modelService.getIotDevice(cityId, deviceId).getLocation();
