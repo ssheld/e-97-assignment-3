@@ -30,12 +30,6 @@ public class ControllerService implements Observer {
     private LedgerService ledgerService;
 
     /**
-     * A map of cityID's and then a list of CO2 devices
-     * that are currently above 1000
-     */
-    private Map<String, List<String>> co2CityMap;
-
-    /**
      * Co2 trigger, tracks high co2 levels
      */
     private int highCo2Level;
@@ -47,7 +41,6 @@ public class ControllerService implements Observer {
 
 
     private ControllerService() {
-        co2CityMap = new LinkedHashMap<>();
         highCo2Level = 0;
         lowCo2Level = 0;
     }
