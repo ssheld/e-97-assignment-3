@@ -26,19 +26,9 @@ public class TrafficAccidentCommand implements Command {
     private String deviceId;
 
     /**
-     * Location of emergency
-     */
-    private Location emergencyLocation;
-
-    /**
      * Reference to Model Service
      */
     private CityModelService modelService;
-
-    /**
-     * List of Robots sorted by distance from emergency
-     */
-    private List<Robot> sortedRobotDistanceList;
 
     /**
      * Constructor for TrafficAccidentCommand, initializes everything needed to execute command.
@@ -51,7 +41,6 @@ public class TrafficAccidentCommand implements Command {
         this.cityId = event.getCityId();
         this.deviceId = event.getDeviceId();
         this.emergencyType = event.getValue();
-        this.emergencyLocation = modelService.getIotDevice(this.cityId, this.deviceId).getLocation();
     }
 
     /**
@@ -61,13 +50,15 @@ public class TrafficAccidentCommand implements Command {
     @Override
     public void execute() throws CityModelServiceException {
 
+        Location emergencyLocation = modelService.getIotDevice(cityId, deviceId).getLocation();
+
         IotDevice reportingDevice = modelService.getIotDevice(cityId, deviceId);
         // Generate announcement at the reporting device
         SensorOutput announcementOutput = new SensorOutput(reportingDevice.getCurrentCity(), reportingDevice.getUuid(), "Stay calm, help is on its way.");
         modelService.createSensorOutput(announcementOutput);
 
         // Get sorted list of robots
-        sortedRobotDistanceList = ControllerUtils.locateRobots(emergencyLocation, modelService, cityId);
+        List<Robot> sortedRobotDistanceList = ControllerUtils.locateRobots(emergencyLocation, modelService, cityId);
 
         // Get two closes robots to emergency
         Robot robot1 = sortedRobotDistanceList.get(0);
